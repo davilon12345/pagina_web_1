@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajes recibidos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Inter, sans-serif;
+            background: #012f1f;
+            color: white;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .top-bar {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn-volver {
+            background: #22c55e;
+            color: black;
+        }
+
+        .btn-eliminar {
+            background: #dc2626;
+            color: white;
+        }
+
+        .mensaje-card {
+            background: #073b29;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 18px;
+        }
+
+        .mensaje-card p {
+            margin: 8px 0;
+        }
+
+        .sin-mensajes {
+            background: #073b29;
+            border-radius: 16px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <a href="{{ url_for('index') }}" class="btn btn-volver">Volver a la página</a>
+        </div>
+
+        <h1>Mensajes recibidos</h1>
+
+        {% if mensajes %}
+            {% for mensaje in mensajes %}
+            <div class="mensaje-card">
+                <p><strong>Nombre:</strong> {{ mensaje["nombre"] }}</p>
+                <p><strong>Email:</strong> {{ mensaje["email"] }}</p>
+                <p><strong>Mensaje:</strong> {{ mensaje["mensaje"] }}</p>
+
+                <form action="{{ url_for('eliminar_mensaje', id=mensaje['id']) }}" method="POST">
+                    <button type="submit" class="btn btn-eliminar">Eliminar</button>
+                </form>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="sin-mensajes">
+                No hay mensajes todavía.
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
